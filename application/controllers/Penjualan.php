@@ -25,7 +25,14 @@ class Penjualan extends MY_Controller {
 		$this->template->load('layoutbackend', 'transaksi/penjualan', $data);
 	}
 
-
+	public function updateDetailPenjualan()
+	{
+        $id = $_POST['id'];
+        $jml_part = $_POST['jml_part'];
+        $hrg_part = $_POST['hrg_part'];
+		$data['dataPo'] = $this->Mod_penjualan->update_detailPenjualan($id,$jml_part,$hrg_part);
+		//$this->load->view('body_repair/detail_estimasi', $data);
+	}
 public function cari_harga() {	
 	$kode=$_GET['kode'];
 	

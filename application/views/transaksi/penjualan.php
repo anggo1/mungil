@@ -32,7 +32,8 @@
                                                     <div class="input-group date" id="reservationdate"
                                                         data-target-input="nearest">
                                                         <input type="text" name="nama" id="nama" class="form-control"
-                                                            onkeypress="return handleEnter(this, event)" onkeyup="f(this)" >
+                                                            onkeypress="return handleEnter(this, event)"
+                                                            onkeyup="f(this)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,7 +195,7 @@
                                             <label class="col-sm-2 col-form-label">Kembalian</label>
                                             <div class="col-sm-4">
                                                 <input type="text" name="kembalian" id="kembalian"
-                                                    onkeypress="return handleEnter(this, event)" onkeydown="f(this)"
+                                                    onchange="formatNumber(this)" onblur="formatNumber(this)"
                                                     class="form-control">
                                             </div>
                                         </div>
@@ -214,29 +215,7 @@
                 </section>
                 <div class="col-md-12">
                     <div class="card card-default">
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped  table-bordered table-hover nowrap responsive"
-                                    id="table-konsumen">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Kode Barang</th>
-                                            <th>Nama Barang</th>
-                                            <th>Jumlah</th>
-                                            <th>Satuan</th>
-                                            <th>Harga</th>
-                                            <th>Total</th>
-                                            <th>AKSI</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data-penjualan">
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
-                            </div>
-                        </div>
+                                    <div id="data-penjualan"></div>
                     </div>
 
                 </div>
@@ -492,21 +471,6 @@
 
                     })
             })
-            $(document).on("click", ".cetak-perhari", function() {
-                var date1 = document.getElementById("date1").value;
-
-                $.ajax({
-                        method: "POST",
-                        url: "<?php echo base_url('Penjualan/cetakHarian'); ?>",
-                        data: "date1=" + date1
-                    })
-
-                    .done(function(data) {
-                        $('#cetak-harian').html(data);
-                        $('#modal-harian').modal('show');
-
-                    })
-            })
 
             $('#form2').submit(function(e) {
                 var data = $(this).serialize();
@@ -654,44 +618,54 @@
                 interval = setInterval("Calculate()", 10);
             }
 
-            function formatNumber(num) {
+            function formatNumber1(num) {
                 return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
             }
 
-            function Calculate() {
+            function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+                try {
+                    decimalCount = Math.abs(decimalCount);
+                    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
-                var x = document.form2.total_bayar.value;
-                var y = document.form2.jumlah_bayar.value;
+                    const negativeSign = amount < 0 ? "-" : "";
+
+                    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+                    let j = (i.length > 3) ? i.length % 3 : 0;
+
+                    return negativeSign +
+                        (j ? i.substr(0, j) + thousands : '') +
+                        i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands);
+                        //(decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+                } catch (e) {
+                    console.log(e)
+                }
+            };
+
+            function Calculate() {
+                var total = document.form2.jumlah_bayar.value;
+                total = total.replace(/\,/g, '');
+                
+                var t_bayar = document.form2.total_bayar.value;
+                t_bayar = t_bayar.replace(/\,/g, '');
+
+                var x = t_bayar;
+                var y = total;
                 var a = document.form2.total_harganya.value;
                 var b = document.form2.potongan.value;
                 var diskon = document.form2.total_diskon.value = (a * 1) * b / 100;
+
                 if ($('#radioSuccess3').is(':checked')) {
-                    document.form2.kembalian.value = y - x;
+                    document.form2.kembalian.value = formatMoney(y - x);
                     document.form2.total_potongan.value = (a * 1) * b / 100;
-                    document.form2.total_bayar.value = a - diskon;
+                    document.form2.total_bayar.value = formatMoney(a - diskon);
                 } else {
-                    document.form2.kembalian.value = y - x;
-                    document.form2.total_bayar.value = a - b;
+                    document.form2.kembalian.value = formatMoney(y - x);
+                    document.form2.total_bayar.value = formatMoney(a - b);
                     document.form2.total_potongan.value = b;
                 }
             }
 
             function stopCalc() {
-                clearInterval(interval);
-            }
-
-            function startCalculate2() {
-                interval = setInterval("Calculate2()", 10);
-            }
-
-            function Calculate2() {
-                var a = document.form2.total_bayar.value;
-                var b = document.form2.jumlah_bayar.value;
-                document.form2.kembalian.value = b - a;
-
-            }
-
-            function stopCalc2() {
                 clearInterval(interval);
             }
             </script>

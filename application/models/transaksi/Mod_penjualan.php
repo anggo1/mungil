@@ -405,52 +405,14 @@ WHERE tbl_detail_penjualan.id_penjualan='{$id}'";
 
 		return $data->result();
 	}
-    public function batal_kirim($id) {
-		$sql = "DELETE FROM no_stt WHERE id_kirim='{$id}'";
-		$this->db->query($sql);
-        $sql1 = "DELETE FROM data_selesai_kirim WHERE id_kirim='{$id}'";
-		$this->db->query($sql1);
-        $sql2 = "UPDATE data_pengiriman SET kirim ='N' WHERE id_kirim='{$id}'";
-		$this->db->query($sql2);
-        
-
-		return $this->db->affected_rows();
-	}
-    public function insertData_detail($data) {
-    $datenow= date("Y-m-d");
-        $ptd1           = $data['ptd1'];
-		$todoor       = $data['beTD'];
-		$total_biaya  = $data['total_biaya'];
-		$fee_agen     = $data['fee_agen'];
-		$fee_driver   = $data['fee_driver'];
-		$id_kiriman   = $data['id_kiriman'];
-		$stt_brow_kirim   = $data['stt_brow_kirim'];
-		$no_sttnye_brow   = $data['no_sttnye_brow'];
-		$id_she       = $data['id_she'];
-	    $total_potongan_fee	 = $fee_agen + $fee_driver;
-        
-        $jml_setor= ($total_biaya - $total_potongan_fee) + $todoor ;
-	   if($ptd1=='Y'){ $jml_setor= $total_biaya - $total_potongan_fee ;}    
-        
-		$sql = "INSERT INTO data_setor SET
-        id_setoran  ='',
-        id_setor    ='$id_kiriman',
-        no_stt      ='$no_sttnye_brow',
-        jumlah      ='$jml_setor'";
-        $this->db->query($sql);
-        
-        $sql1 = "UPDATE data_pengiriman SET
-        setor  ='Y' WHERE id_kirim ='$no_sttnye_brow'";
-        $this->db->query($sql1);
-        
-        $sql2 = "UPDATE data_selesai_kirim SET
-        setor       ='Y',
-        id_setor    ='$id_kiriman',
-        tgl_setor   ='$datenow',
-        jml_setor  = '$jml_setor' WHERE id_she ='$id_she'";
-        $this->db->query($sql2);
-
-		return $this->db->affected_rows();
+	function update_detailPenjualan($id,$jml_part,$hrg_part)
+	{			
+	$jml =str_replace(" ","", $jml_part);
+	$total=$hrg_part*$jml;
+		$sql_update = "UPDATE tbl_detail_penjualan SET jumlah ='$jml_part', total_harga = '$total' WHERE id_detail ='{$id}'"; $this->db->query($sql_update);
+		
+	return $this->db->affected_rows();
+		//return $data->row();
 	}
      public function updateKirim($data) {
          
@@ -467,14 +429,19 @@ WHERE tbl_detail_penjualan.id_penjualan='{$id}'";
 			
 		}
 		
+        $hargaB=$data['jumlah_bayar'];
+		$jumlah_bayar =str_replace(",","", $hargaB);
+        $hargaB=$data['kembalian'];
+		$kembalian =str_replace(",","", $hargaB);
+
         $sql1 = "UPDATE tbl_penjualan SET
         pembayaran  	='" .$data['pembayaran'] ."',
         diskon  		='$bentuk_diskon',
         jumlah_diskon  	='" .$data['total_potongan'] ."',       
         total  			='" .$data['total_harganya'] ."',       
         sisa_bayar  	='$bayar',       
-        jumlah_bayar  	='" .$data['jumlah_bayar'] ."',       
-        kembalian  		='" .$data['kembalian'] ."'        
+        jumlah_bayar  	='$jumlah_bayar',       
+        kembalian  		='$kembalian'        
         WHERE id_penjualan ='" .$data['kode_t'] ."'";
         $this->db->query($sql1);
 		return $this->db->affected_rows();
