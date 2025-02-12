@@ -9,7 +9,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="card card-default">
+                                <div class="card card-default">Penjualan Vira
                                     <!-- /.card-header -->
                                     <div class="card-body">
 
