@@ -29,7 +29,9 @@ foreach ($dataDetail as $s) {
     <td <?php if($s->status=='EP'){echo 'bgcolor="#18F360"';}?>><?php echo $s->nama_barang ?></td>
     <td title="Double click Untuk Edit Dan Tekan Enter untuk Simpan"
                                 onclick="this.contentEditable=true; this.className='inEdit';"
-                                onblur="this.contentEditable=false; this.className='inEdit';"
+                                onblur="saveData(event,'<?php echo $s->id_penjualan; ?>','<?php echo $s->id_detail; ?>','<?php echo $s->harga; ?>',$(this).html() )"
+                                onfocus="saveData(event,'<?php echo $s->id_penjualan; ?>','<?php echo $s->id_detail; ?>','<?php echo $s->harga; ?>',$(this).html() )"
+                                onkeyup="saveData(event,'<?php echo $s->id_penjualan; ?>','<?php echo $s->id_detail; ?>','<?php echo $s->harga; ?>',$(this).html() )"
                                 onkeypress="saveData(event,'<?php echo $s->id_penjualan; ?>','<?php echo $s->id_detail; ?>','<?php echo $s->harga; ?>',$(this).html() )">
                                 <?php echo $s->jumlah; ?></td>
     <td><?php echo $s->satuan ?></td>

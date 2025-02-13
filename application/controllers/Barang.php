@@ -27,6 +27,75 @@ class Barang extends MY_Controller {
 
 		$this->template->load('layoutbackend', 'master_data/barang', $data);
 	}
+	public function ajax_list()
+    {
+        $link=$this->uri->segment(1);
+        $idlevel = $this->session->userdata['id_level'];
+        $get_id = $this->Mod_barang->get_by_nama($link);
+        foreach ($get_id as $idnye){
+            $row1 = array();
+            $row1[] = $idnye->id_submenu;
+            $id_sub=$idnye->id_submenu;
+        }
+        $viewLevel = $this->Mod_barang->select_by_level($idlevel, $id_sub);
+
+        foreach ($viewLevel as $pel1) {
+            $row1 = array();
+            $row1[] = $pel1->id_submenu;
+            $data1[] = $row1;
+
+            $list = $this->Mod_barang->get_datatables();
+            $data = array();
+            $no = $_POST['start'];
+            foreach ($list as $p) {
+                $no++;
+                $row = array();
+                $row[] = $no;
+                $row[] = $p->kode_barang;
+                $row[] = $p->nama_barang;
+                $row[] = $p->id_satuan;                
+                $row[] = $p->id_supplier;
+                $row[] = number_format($p->harga_eceran);    
+                $row[] = $p->stok;
+                if($pel1->edit_level=="Y"){
+                    $edit='                    
+                    <button class="btn btn-sm btn-outline-success update-dataBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-edit"></i>
+                    </button>';
+                }                
+                if($pel1->delete_level=="Y"){
+                    $delete='
+                    <button class="btn btn-sm btn-outline-danger delete-barang" title="Delete" data-toggle="modal" data-target="#konfirmasiHapus" data-id="'.$p->kode_barang.'">
+                    <i class="fa fa-trash"></i></button>';
+                }
+                if($pel1->upload_level=="Y"){
+                    $upload='
+                    <button class="btn btn-sm btn-outline-info update-stokBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-random"></i>
+                    </button>
+                    ';
+                }
+                if($pel1->delete_level=="N"){
+                    $delete='';
+                }
+                if($pel1->edit_level=="N"){
+                    $edit='';
+                }
+                if($pel1->upload_level=="N"){
+                    $upload='';
+                }
+                $akses_system=$edit.$delete.$upload;
+                $row[] = $akses_system;
+                $data[] = $row;
+            }
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Mod_barang->count_all(),
+            "recordsFiltered" => $this->Mod_barang->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
      public function showList() {
 		$data['data'] = $this->Mod_barang->select_barang();
 		$this->load->view('master_data/list_barang', $data);

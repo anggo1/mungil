@@ -18,7 +18,6 @@ class User extends MY_Controller {
         $this->load->helper('url');
         $data['user'] = $this->Mod_user->getAll();
         $data['user_level'] = $this->Mod_user->userlevel();
-        $data['user_lokasi'] = $this->Mod_user->userlokasi();
         $this->template->load('layoutbackend', 'admin/user_data', $data);
     }
 
@@ -39,7 +38,6 @@ class User extends MY_Controller {
             $row[] = $user->nama_level;            
             $row[] = $user->is_active;
             $row[] = $user->id_user;
-            $row[] = $user->lokasi;
             $data[] = $row;
         }
 
@@ -80,7 +78,6 @@ class User extends MY_Controller {
                 'full_name' => $this->input->post('full_name'),
                 'password'  => get_hash($this->input->post('password')),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active'),
                 'image' => $gambar['file_name']
             );
@@ -93,7 +90,6 @@ class User extends MY_Controller {
                 'full_name' => $this->input->post('full_name'),
                 'password'  => get_hash($this->input->post('password')),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active')
             );
             
@@ -148,7 +144,6 @@ class User extends MY_Controller {
                     'full_name' => $this->input->post('full_name'),
                     'password'  => get_hash($this->input->post('password')),
                     'id_level'  => $this->input->post('level'),
-                    'lokasi'  => $this->input->post('lokasi'),
                     'is_active' => $this->input->post('is_active'),
                     'image' => $gambar['file_name']
                 );
@@ -157,7 +152,6 @@ class User extends MY_Controller {
                 'username' => $this->input->post('username'),
                 'full_name' => $this->input->post('full_name'),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active'),
                 'image' => $gambar['file_name']
                 );
@@ -182,7 +176,6 @@ class User extends MY_Controller {
                     'full_name' => $this->input->post('full_name'),
                     'password'  => get_hash($this->input->post('password')),
                     'id_level'  => $this->input->post('level'),
-                    'lokasi'  => $this->input->post('lokasi'),
                     'is_active' => $this->input->post('is_active')
                 );
             }else{//Jika password kosong
@@ -190,7 +183,6 @@ class User extends MY_Controller {
                 'username' => $this->input->post('username'),
                 'full_name' => $this->input->post('full_name'),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active')
                 );
             }
@@ -207,7 +199,6 @@ class User extends MY_Controller {
                 'full_name' => $this->input->post('full_name'),
                 'password'  => get_hash($this->input->post('password')),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active')
                 );
             }else{
@@ -215,7 +206,6 @@ class User extends MY_Controller {
                 'username' => $this->input->post('username'),
                 'full_name' => $this->input->post('full_name'),
                 'id_level'  => $this->input->post('level'),
-                'lokasi'  => $this->input->post('lokasi'),
                 'is_active' => $this->input->post('is_active')
                 );
             }

@@ -17,7 +17,6 @@ class Profile extends MY_Controller {
         $this->load->helper('url');
         $data['user'] = $this->Mod_user->getAll();
         $data['user_level'] = $this->Mod_user->userlevel();
-        $data['user_lokasi'] = $this->Mod_user->userlokasi();
         $this->template->load('layoutbackend', 'admin/profile', $data);
     }
 

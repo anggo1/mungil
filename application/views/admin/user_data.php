@@ -274,7 +274,6 @@ function add_user()
         $('[name="full_name"]').val(data.full_name);
         $('[name="is_active"]').val(data.is_active);
         $('[name="level"]').val(data.id_level);
-        $('[name="lokasi"]').val(data.lokasi);
         
         if (data.image==null) {
           var image = "<?php echo base_url('assets/foto/user/default.png')?>";
@@ -424,18 +423,6 @@ function add_user()
                   <?php
                   foreach ($user_level as $level) {?>
                     <option value="<?=$level->id_level;?>"><?=$level->nama_level;?></option>
-                  <?php }?>
-                </select>
-              </div>
-            </div>
-            <div class="form-group row ">
-              <label for="level" class="col-sm-3 col-form-label">Lokasi</label>
-              <div class="col-sm-9 kosong">
-                <select class="form-control" name="lokasi" id="lokasi">
-                  <option value="">Pilih Lokasi</option>
-                  <?php
-                  foreach ($user_lokasi as $lokasi) {?>
-                    <option value="<?=$lokasi->nama_kota;?>"><?=$lokasi->nama_kota;?></option>
                   <?php }?>
                 </select>
               </div>
