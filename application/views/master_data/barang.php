@@ -56,29 +56,6 @@ $('#datepicker', '#datepicker2').datetimepicker({
     date: moment()
 });
 
-function refresh() {
-    MyTable = $('#list-data,#table-1,#table-2,#table-barang,#list-menu').dataTable();
-}
-
-
-function effect_msg_form() {
-    // $('.form-msg').hide();
-    $('.form-msg').show(500);
-    setTimeout(function() {
-        $('.form-msg').fadeOut(500);
-    }, 1000);
-}
-
-function effect_msg() {
-    // $('.msg').hide();
-    $('.msg').show(500);
-
-    //toastr.success(data.message, 'Adding New Pegawai');
-    setTimeout(function() {
-        $('.msg').fadeOut(500);
-    }, 1000);
-}
-
 $(document).ready(function() {
 
     //datatables
@@ -176,45 +153,6 @@ $(document).ready(function() {
 
 });
 
-var table;
-
-$(document).ready(function() {
-
-    //datatables
-    table = $('#table-lap').DataTable({
-        "responsive": true,
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": true,
-        "processing": true,
-        "serverSide": true,
-        "order": [],
-        "ajax": {
-            "url": "<?php echo site_url('Barang/ajax_konsumen')?>",
-            "type": "POST"
-        },
-        "columnDefs": [{
-            "targets": [0],
-            "orderable": false,
-        }, ],
-
-    });
-
-});
-var MyTable = $('#list-data,#table-1,#table-2').dataTable({
-    "responsive": true,
-    "paging": true,
-    "lengthChange": true,
-    "searching": true,
-    "ordering": true,
-    "info": true,
-    "processing": true
-});
-
-
 /* Barang */
 
 function tampilBarang() {
@@ -288,7 +226,6 @@ $(document).on('submit', '#form-update-barang', function(e) {
         .done(function(data) {
             var out = jQuery.parseJSON(data);
 
-            tampilBarang();
             if (out.status == 'form') {
                 $('.form-msg').html(out.msg);
                 effect_msg_form();
@@ -296,6 +233,7 @@ $(document).on('submit', '#form-update-barang', function(e) {
                 document.getElementById("form-update-barang").reset();
                 $('#update-barang').modal('hide');
                 $('.msg').html(out.msg);
+				table.ajax.reload();
                 Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
@@ -304,7 +242,6 @@ $(document).on('submit', '#form-update-barang', function(e) {
                                 timer: 1000
                             })
                 window.setTimeout(function() {
-                    window.location.reload()
                 }, 1000);
             }
         })
@@ -335,7 +272,6 @@ $(document).on('submit', '#form-stok-barang', function(e) {
         .done(function(data) {
             var out = jQuery.parseJSON(data);
 
-            tampilBarang();
             if (out.status == 'form') {
                 $('.form-msg').html(out.msg);
                 effect_msg_form();
@@ -343,6 +279,7 @@ $(document).on('submit', '#form-stok-barang', function(e) {
                 document.getElementById("form-stok-barang").reset();
                 $('#update-stokbarang').modal('hide');
                 $('.msg').html(out.msg);
+				table.ajax.reload();
                 Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
@@ -351,7 +288,6 @@ $(document).on('submit', '#form-stok-barang', function(e) {
                                 timer: 1000
                             })
                 window.setTimeout(function() {
-                    window.location.reload()
                 }, 1000);
             }
         })
@@ -383,10 +319,17 @@ $(document).on("click", ".hapus-dataBarang", function() {
         })
         .done(function(data) {
             $('#konfirmasiHapus').modal('hide');
-            tampilBarang();
+			table.ajax.reload();
             $('.msg').html(data);
-            effect_msg();
-            // toastr.success(out.msg);
+                Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Data dihapus',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                window.setTimeout(function() {
+                }, 1000);
         })
 })
 
@@ -394,241 +337,4 @@ $(document).on("click", ".hapus-dataBarang", function() {
 //end
 /* Satuan */
 
-function tampilSatuan() {
-    $.get('<?php echo base_url('Barang/showSat'); ?>', function(data) {
-        MyTable.fnDestroy();
-        $('#data-satuan').html(data);
-        refresh();
-    });
-}
-$('#form-tambah-satuan').submit(function(e) {
-    var data = $(this).serialize();
-
-    $.ajax({
-            method: 'POST',
-            url: '<?php echo base_url('Barang/prosesTsatuan'); ?>',
-            data: data
-        })
-        .done(function(data) {
-            var out = jQuery.parseJSON(data);
-
-            tampilSatuan();
-            if (out.status == 'form') {
-                $('.form-msg').html(out.msg);
-                effect_msg_form();
-            } else {
-                document.getElementById("form-tambah-satuan").reset();
-                $('#tambah-satuan').modal('hide');
-                $('.msg').html(out.msg);
-                effect_msg();
-            }
-        })
-
-    e.preventDefault();
-});
-
-$(document).on("click", ".update-dataSatuan", function() {
-    var id = $(this).attr("data-id");
-
-    $.ajax({
-            method: "POST",
-            url: "<?php echo base_url('Barang/updateSatuan'); ?>",
-            data: "id=" + id
-        })
-        .done(function(data) {
-            $('#tempat-modal').html(data);
-            $('#update-satuan').modal('show');
-        })
-})
-$(document).on('submit', '#form-update-satuan', function(e) {
-    var data = $(this).serialize();
-
-    $.ajax({
-            method: 'POST',
-            url: '<?php echo base_url('Barang/prosesUsatuan'); ?>',
-            data: data
-        })
-        .done(function(data) {
-            var out = jQuery.parseJSON(data);
-
-            tampilSatuan();
-            if (out.status == 'form') {
-                $('.form-msg').html(out.msg);
-                effect_msg_form();
-            } else {
-                document.getElementById("form-update-satuan").reset();
-                $('#update-satuan').modal('hide');
-                $('.msg').html(out.msg);
-                effect_msg();
-            }
-        })
-
-    e.preventDefault();
-});
-
-$('#tambah-satuan').on('hidden.bs.modal', function() {
-    $('.form-msg').html('');
-})
-
-$('#update-satuan').on('hidden.bs.modal', function() {
-    $('.form-msg').html('');
-})
-
-
-//end
-/* Supplier */
-
-function tampilSupplier() {
-    $.get('<?php echo base_url('Barang/showSup'); ?>', function(data) {
-        MyTable.fnDestroy();
-        $('#data-supplier').html(data);
-        refresh();
-    });
-}
-$('#form-tambah-supplier').submit(function(e) {
-    var data = $(this).serialize();
-
-    $.ajax({
-            method: 'POST',
-            url: '<?php echo base_url('Barang/prosesTsupplier'); ?>',
-            data: data
-        })
-        .done(function(data) {
-            var out = jQuery.parseJSON(data);
-
-            tampilSupplier();
-            if (out.status == 'form') {
-                $('.form-msg').html(out.msg);
-                effect_msg_form();
-            } else {
-                document.getElementById("form-tambah-supplier").reset();
-                $('#tambah-supplier').modal('hide');
-                $('.msg').html(out.msg);
-                effect_msg();
-            }
-        })
-
-    e.preventDefault();
-});
-
-$(document).on("click", ".update-dataSupplier", function() {
-    var id = $(this).attr("data-id");
-
-    $.ajax({
-            method: "POST",
-            url: "<?php echo base_url('Barang/updateSupplier'); ?>",
-            data: "id=" + id
-        })
-        .done(function(data) {
-            $('#tempat-modal').html(data);
-            $('#update-supplier').modal('show');
-        })
-})
-$(document).on('submit', '#form-update-supplier', function(e) {
-    var data = $(this).serialize();
-
-    $.ajax({
-            method: 'POST',
-            url: '<?php echo base_url('Barang/prosesUsupplier'); ?>',
-            data: data
-        })
-        .done(function(data) {
-            var out = jQuery.parseJSON(data);
-
-            tampilSupplier();
-            if (out.status == 'form') {
-                $('.form-msg').html(out.msg);
-                effect_msg_form();
-            } else {
-                document.getElementById("form-update-supplier").reset();
-                $('#update-supplier').modal('hide');
-                $('.msg').html(out.msg);
-                effect_msg();
-            }
-        })
-
-    e.preventDefault();
-});
-
-$('#tambah-supplier').on('hidden.bs.modal', function() {
-    $('.form-msg').html('');
-})
-
-$('#update-supplier').on('hidden.bs.modal', function() {
-    $('.form-msg').html('');
-})
-
-var id_sup;
-$(document).on("click", ".delete-supplier", function() {
-    id_sup = $(this).attr("data-id");
-})
-$(document).on("click", ".hapus-supplier", function() {
-    var id = id_sup;
-
-    $.ajax({
-            method: "POST",
-            url: "<?php echo base_url('Barang/deleteSup'); ?>",
-            data: "id=" + id
-        })
-        .done(function(data) {
-            $('#konfirmasiHapus').modal('hide');
-            tampilSupplier();
-            $('.msg').html(data);
-            effect_msg();
-        })
-})
-//end
-
-
-
-function req_nama_sp1(get_kode, get_area, flag) {
-    clearTimeout(timer);
-    nic_sp = get_kode;
-    area = get_area;
-    if (flag == "start") {
-        timer = setTimeout("req_nama_sp1(nic_sp,area,'delay')", 200);
-    } else if (flag == "delay") {
-        if (get_kode == document.getElementById("nic_sp1").value) {
-            var url = "<?php echo base_url('laplaka/carisp');?>?rand=" + Math.random();
-            var post = "nic_sp=" + nic_sp + "&act=req_nama_sp1";
-            ajax(url, post, area);
-        } else {
-            timer = setTimeout("req_nama_sp1(nic_sp,area,'delay')", 200);
-        }
-    }
-}
-/* pencarian Nomor Kasusnye */
-var xmlhttp = false;
-
-try {
-    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-    try {
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (E) {
-        xmlhttp = false;
-    }
-}
-
-if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-    xmlhttp = new XMLHttpRequest();
-}
-
-
-//untuk bukutamu
-function surat(no_kasus) {
-    var obj = document.getElementById("pencarian");
-    var url = '<?php echo base_url('bak/carisurat');?>?no_kasus=' + no_kasus;
-
-    xmlhttp.open("GET", url);
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            obj.innerHTML = xmlhttp.responseText;
-        } else {
-            obj.innerHTML = "<div align ='center'><img src='waiting.gif' alt='Loading' /></div>";
-        }
-    }
-    xmlhttp.send(null);
-}
 </script>

@@ -26,12 +26,14 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/toastr/toastr.min.css">
 </head>
-
 <body class="hold-transition login-page" id="gradien1">
 <div class="login-box">
       <div class="login-logo">
         <img src="<?php echo base_url(); ?>assets/dist/img/Logo.png" alt="logo" width="55%" class="shadow-light"><br>
 		  <a href="<?php echo base_url();?>">
+                    <b><?php 
+          echo '<font color=white>'.$aplikasi->nama_aplikasi.'</font>';
+        ?></b></a>
       </div>
 
         <!-- /.login-logo -->

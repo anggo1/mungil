@@ -59,19 +59,19 @@ class Barang extends MY_Controller {
                 $row[] = $p->stok;
                 if($pel1->edit_level=="Y"){
                     $edit='                    
-                    <button class="btn btn-sm btn-outline-success update-dataBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-edit"></i>
+                    <button class="btn btn-sm btn-outline-success update-dataBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-edit">Edit</i>
                     </button>';
+                }
+                if($pel1->upload_level=="Y"){
+                    $upload='
+                    <button class="btn btn-sm btn-outline-info update-stokBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-random"> Harga</i>
+                    </button>
+                    ';
                 }                
                 if($pel1->delete_level=="Y"){
                     $delete='
                     <button class="btn btn-sm btn-outline-danger delete-barang" title="Delete" data-toggle="modal" data-target="#konfirmasiHapus" data-id="'.$p->kode_barang.'">
-                    <i class="fa fa-trash"></i></button>';
-                }
-                if($pel1->upload_level=="Y"){
-                    $upload='
-                    <button class="btn btn-sm btn-outline-info update-stokBarang" title="Edit" data-id="'.$p->kode_barang.'"><i class="fa fa-random"></i>
-                    </button>
-                    ';
+                    <i class="fa fa-trash"> Hapus</i></button>';
                 }
                 if($pel1->delete_level=="N"){
                     $delete='';
@@ -82,7 +82,7 @@ class Barang extends MY_Controller {
                 if($pel1->upload_level=="N"){
                     $upload='';
                 }
-                $akses_system=$edit.$delete.$upload;
+                $akses_system=$edit.$upload.$delete;
                 $row[] = $akses_system;
                 $data[] = $row;
             }
@@ -196,75 +196,4 @@ class Barang extends MY_Controller {
 			echo show_err_msg('Failed!', '20px');
 		}
 	}
-	/*Satuan*/
-    public function showSat() {
-		$data['data'] = $this->Mod_barang->select_satuan();
-		$this->load->view('admin/master_data/sat_data', $data);
-	}
-	public function Satuan() {
-		$data['userdata'] = $this->userdata;
-		//$data['dataSatuan'] = $this->Mod_barang->select_satuan();
-
-		$data['page'] = "Satuan";
-		$data['judul'] = "Satuan Barang";
-		$data['deskripsi'] = "Satuan Barang";
-
-		$data['modal_tambah_satuan'] = show_my_modal('admin/master_data/modals/modal_tambah_satuan', 'tambah-satuan', $data);
-
-		$this->template->views('admin/master_data/satuan', $data);
-	}
-	public function prosesTsatuan() {
-		$this->form_validation->set_rules('nama_satuan', 'Nama Satuan', 'trim|required');
-
-		$data 	= $this->input->post();
-		if ($this->form_validation->run() == TRUE) {
-			$result = $this->Mod_barang->insertSatuan($data);
-
-			if ($result > 0) {
-				$out['status'] = '';
-				$out['msg'] = show_ok_msg('Success', '20px');
-			} else {
-				$out['status'] = '';
-				$out['msg'] = show_err_msg('Filed !', '20px');
-			}
-		} else {
-			$out['status'] = 'form';
-			$out['msg'] = show_err_msg(validation_errors());
-		}
-
-		echo json_encode($out);
-	}
-	public function updateSatuan() {
-		$data['userdata'] 	= $this->userdata;
-
-		$id 				= trim($_POST['id']);
-		$data['dataSatuan'] = $this->Mod_barang->select_id_satuan($id);
-
-		echo show_my_modal('admin/master_data/modals/modal_tambah_satuan', 'update-satuan', $data);
-	}
-
-	public function prosesUsatuan() {
-		
-		$this->form_validation->set_rules('nama_satuan', 'Nama Satuan', 'trim|required');
-
-		$data 	= $this->input->post();
-		if ($this->form_validation->run() == TRUE) {
-			$result = $this->Mod_barang->updateSatuan($data);
-
-			if ($result > 0) {
-				$out['status'] = '';
-				$out['msg'] = show_succ_msg('Success', '20px');
-			} else {
-				$out['status'] = '';
-				$out['msg'] = show_succ_msg('Filed!', '20px');
-			}
-		} else {
-			$out['status'] = 'form';
-			$out['msg'] = show_err_msg(validation_errors());
-		}
-
-		echo json_encode($out);
-	}
-
-	/*endsatuan*/
 }
