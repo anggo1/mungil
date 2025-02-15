@@ -238,53 +238,6 @@
             }
 
 
-            function effect_msg_form() {
-                // $('.form-msg').hide();
-                $('.form-msg').show(500);
-                setTimeout(function() {
-                    $('.form-msg').fadeOut(500);
-                }, 1000);
-            }
-
-            function effect_msg() {
-                // $('.msg').hide();
-                $('.msg').show(500);
-
-                //toastr.success(data.message, 'Adding New Pegawai');
-                setTimeout(function() {
-                    $('.msg').fadeOut(500);
-                }, 1000);
-            }
-
-            var MyTable = $('#list-data,#table-1').dataTable({
-                "responsive": true,
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true
-            });
-            var MyTable = $('#table-konsumen').dataTable({
-                "responsive": false,
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": false,
-                "pageLength": 5
-            });
-
-            var MyTable = $('#table-barang').dataTable({
-                "responsive": false,
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": false,
-                "info": false,
-                "pageLength": 5
-            });
-
-
             //next id send datakode
             function next(datakode) {
                 document.getElementById('next_proses').value = datakode;
@@ -321,7 +274,6 @@
                     success: function(hasil) {
                         MyTable.fnDestroy();
                         $('#data-penjualan').html(hasil);
-                        refresh();
                         document.getElementById("cetak").hidden = false;
                     }
                 });
@@ -503,7 +455,6 @@
                             $('#konfirmasiHapus').modal('hide');
                             toastr.error(out.msg);
                             var next_proses = document.form1.next_proses.value;
-                            refresh();
                             isi_total()
                             //isi_harga2(next_proses);
                             //next(next_proses);

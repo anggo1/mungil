@@ -38,3 +38,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+var MyTable = $('#table-barang').dataTable({
+    "responsive": false,
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": false,
+    "info": true
+});
+</script>

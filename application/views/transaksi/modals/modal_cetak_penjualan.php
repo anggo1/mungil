@@ -163,7 +163,7 @@ th {
                     <th style="border-bottom: 1px dashed #000;">
                         <font size="-3"><?php echo $d->jumlah ?> x <?php echo $d->nama_barang ?> </font><em>
                             <font size="-3">
-                        </em><?php echo $d->satuan ?>@<?php echo number_format($d->harga) ?>
+                        </em><?php echo $d->satuan ?>@<?php echo number_format($d->harga_dasar) ?>
                     </th>
                     <th align="right" style="border-bottom: 1px dashed #000; text-align: right;">
                         <font size="-2"><?php echo $d->formatted1 = number_format($d->total_harga) ?></font>
