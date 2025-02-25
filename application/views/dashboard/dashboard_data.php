@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 ">
+    <div class="col-12">
         <div class="content">
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
@@ -8,141 +8,65 @@
                 <!-- /.col-md-6 -->
 
                 <div class="row">
-                    <div class="col-md-6">
-
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Grafik Barang Keluar Bulan Kemarin</h3>
-                                    <a href="javascript:void(0);">View Report</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="position-relative mb-4">
-                                    <canvas id="sales-chart" height="200"></canvas>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Grafik Barang Keluar Bulan ini</h3>
-                                    <a href="javascript:void(0);">View Report</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <!-- /.d-flex -->
-
-                                <div class="position-relative mb-4">
-                                    <canvas id="visitors-chart" height="200"></canvas>
-                                </div>
-
-                            </div>
-                        </div>
-                        <!-- /.card -->
-                    </div>
                     <!-- /.row -->
-                    <div class="col-lg-2 col-4">
+                    <div class="col-lg-4 col-4">
                         <!-- small box -->
                         <div class="small-box bg-indigo">
-                            <div class="inner">
-                                <h3><?php // echo $jml_barang ?></h3>
-
-                                <p>Material & Sparepart</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-tv"></i>
-                            </div>
-                            <a href="<?php echo base_url('Sparepart'); ?>" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                        <div class="small-box bg-gradient-primary" style="border-radius: 0.50rem;">
+              <div class="inner" style="padding-bottom: 0rem;">
+                  <a href="<?php echo base_url('Status_pengiriman'); ?>">
+                      <h4 align="center" style="padding-bottom: 0rem;"><i class="fa fa-shipping-fast" style="color: aliceblue;"></i></h4><p></p>
+                     </div>
+              <a href="<?php echo base_url('DataPenjualan'); ?>" class="small-box-footer" style="border-bottom-left-radius: 0.50rem;border-bottom-right-radius: 0.50rem;">
+                  <?php //echo $dataMakanan; ?> Daftar Transaksi</a>            
+                </div></a>
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-4">
+                    <div class="col-lg-4 col-4">
                         <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>P O</h3>
-
-                                <p>Purchase Order</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-coins"></i>
-                            </div>
-                            <a href="<?php // echo base_url('PurchaseOrder'); ?>" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
+                        <div class="small-box bg-gradient-info" style="border-radius: 0.50rem;">
+              <div class="inner" style="padding-bottom: 0rem;">
+                  <a href="<?php echo base_url('Status_pengiriman'); ?>">
+                      <h4 align="center" style="padding-bottom: 0rem;"><i class="fa fa-shipping-fast" style="color: aliceblue;"></i></h4><p></p>
+                     </div>
+              <a href="<?php echo base_url('Pengeluaran'); ?>" class="small-box-footer" style="border-bottom-left-radius: 0.50rem;border-bottom-right-radius: 0.50rem;">
+                  <?php // echo $dataMakanan; ?> Barang Keluar</a>            
+                </div></a>
                     </div>
 
-                    <div class="col-lg-2 col-4">
+                    <div class="col-lg-4 col-4">
                         <!-- small box -->
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3>Part Masuk</h3>
+                        <div class="small-box bg-indigo">
+                        <div class="small-box bg-gradient-indigo" style="border-radius: 0.50rem;">
+              <div class="inner" style="padding-bottom: 0rem;">
+                  <a href="<?php echo base_url('Status_pengiriman'); ?>">
+                      <h4 align="center" style="padding-bottom: 0rem;"><i class="fa fa-shipping-fast" style="color: aliceblue;"></i></h4><p></p>
+                     </div>
+              <a href="<?php echo base_url('BarangMasuk'); ?>" class="small-box-footer" style="border-bottom-left-radius: 0.50rem;border-bottom-right-radius: 0.50rem;">
+                  <?php // echo $dataMakanan; ?> Barang Masuk</a>            
+                </div></a>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
 
-                                <p>Barang Masuk Dengan PO</p>
+                    <div class="col-lg-12 col-12">
+                        <!-- small box -->
+                        <div class="small-box bg-success"><a href="<?php echo base_url('Penjualan'); ?>" class="small-box-footer">
+                            <div class="inner">
+                                <h3>Transaksi Baru</h3>
+
+                                <p>Transaksi penjualan baru</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-file-signature"></i>
                             </div>
-                            <a href="<?php //echo base_url('Part_masuk'); ?>" class="small-box-footer">More info <i
+                            More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-4">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>Part Masuk</h3>
-
-                                <p>Barang Masuk Tanpa PO</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-file-signature"></i>
-                            </div>
-                            <a href="<?php //echo base_url('Part_masuk_npo'); ?>" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-4">
-                        <!-- small box -->
-                        <div class="small-box bg-teal">
-                            <div class="inner">
-                                <h3>Part Keluar</h3>
-
-                                <p>Barang Keluar Tanpa PK</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-file-upload"></i>
-                            </div>
-                            <a href="<?php //echo base_url('Part_keluar'); ?>" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-4">
-                        <!-- small box -->
-                        <div class="small-box bg-lightblue">
-                            <div class="inner">
-                                <h3>Part PO</h3>
-
-                                <p>Part Keluar</p>
-                            </div>
-                            <div class="icon">
-                                <i class="	fa fa-external-link-alt"></i>
-                            </div>
-                            <a href="<?php //echo base_url('PartPk'); ?>" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
                     <?php } ?>
                     <!-- ./col -->
                     <!-- ./col -->

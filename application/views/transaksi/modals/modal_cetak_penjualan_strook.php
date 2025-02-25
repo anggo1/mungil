@@ -1,9 +1,6 @@
 <script>
 document.getElementById("btnPrint").onclick = function() {
-
-    var kode = document.getElementById('kodePenjualan').value;
     printElement(document.getElementById("printThis"));
-    strook(kode);
 }
 
 function printElement(elem) {
@@ -125,7 +122,7 @@ th {
     <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" id="datatable">
         <thead>
             <tr>
-                <input type="hidden" id="kodePenjualan" value="<?php echo $k->id_penjualan ?>">
+
                 <th style="text-align: center;"><img
                         src="<?php echo base_url();?>assets/foto/logo/<?php echo $apl->logo; ?>" width="150"
                         style="align-content: center; align-items: center; justify-content: center;"></th>
@@ -251,11 +248,7 @@ th {
 <P></P>
 <!--<strong><em><font size="-1">Terbilang</strong> : <?php echo ucwords((number_to_words("$s->total_harganya"))); ?> Rupiah</em>-->
 <div class="card-footer">
-    <button type="button" id="btnPrint" class="btn btn-sm bg-gradient-success"
-        onClick="strook('<?php echo $k->id_penjualan ?>');printElement();"><span class="fa fa-print"></span>&nbsp;&nbsp;
-        Cetak </button>
-    <button class="btn btn-sm bg-gradient-primary" id="simpan" onClick="simpanAje()"><span
-            class="fa fa-save"></span>&nbsp;&nbsp; Tutup</button>
+<button type="button" id="btnPrint" class="btn btn-primary" onClick="strook('<?php echo $k->id_penjualan ?>')" ><span class="fa fa-print"></span>&nbsp;&nbsp;  STROOK </button>
     <script type="text/javascript">
     function strook(toast) {
         Android.cari_data(toast);

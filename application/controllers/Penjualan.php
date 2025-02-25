@@ -302,7 +302,32 @@ public function cari_harga() {
 
 		echo show_my_print('transaksi/modals/modal_cetak_penjualan', 'cetak-ttb', $data, ' modal-sm');
 	}
-    }
+}
+	public function cetakprint() {
+		$data['page'] 		= "Cetak";
+		$data['judul'] 		= "Proses Cetak";
+		//$id 				= $_GET['id'];
+		$idnye = $this->input->get('id', TRUE);
+		
+		$ida= explode('=',$idnye);		
+		$id = $ida[0];
+		
+		$data['dataKirim'] = $this->Mod_penjualan->select_by_id($id);
+		$data['detailKirim'] = $this->Mod_penjualan->select_by_detail($id);
+		$data['detailSum'] = $this->Mod_penjualan->select_by_sum($id);
+        //$data['dataqr'] = 'testah';
+        //$this->ciqrcode->generate($data);
+		echo show_my_print('transaksi/modals/modal_cetak_penjualan_strook', 'cetak-ttb', $data);
+		//$this->template->views('transaksi/modals/modal_cetak_penjualan', $data);
+
+		//echo show_my_print('proses/modals/modal_cetak_ttb_t', 'cetak-ttb', $data, ' modal-xm');
+		$output = array (
+		"datakirim" => $data['dataKirim'],
+		);			
+				//echo json_encode($output);
+			
+	}
+    
     public function cetak_ulang() {
 		$id 				= $_POST['id'];
 		$data['dataKirim'] = $this->Mod_penjualan->select_by_id($id);

@@ -26,20 +26,19 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/toastr/toastr.min.css">
 </head>
+
 <body class="hold-transition login-page" id="gradien1">
-<div class="login-box">
-      <div class="login-logo">
-        <img src="<?php echo base_url(); ?>assets/dist/img/Logo.png" alt="logo" width="55%" class="shadow-light"><br>
-		  <a href="<?php echo base_url();?>">
-                    <b><?php 
-          echo '<font color=white>'.$aplikasi->nama_aplikasi.'</font>';
-        ?></b></a>
-      </div>
+    <div class="login-box-anggo">
+        
+        <div class="login-logo">
+            <img src="<?php echo base_url(); ?>assets/dist/img/Logo.png" alt="logo" width="50%"
+                class="shadow-light"><p></p>
+        </div>
 
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-header bg-black">
-                <h4><i class="fas fa-sign-in-alt"></i> Start your session</h4>
+                <h4><i class="fas fa-sign-in-alt"></i> Sign in to start your session</h4>
             </div>
             <div class="card-body login-card-body">
 
@@ -58,13 +57,15 @@
                     </div>
                     <label for="username">Password</label>
                     <div class="input-group mb-3 kosong">
-                        <input type="password" name="password" class="form-control" placeholder="Password"
+                        <input type="password" name="password" class="form-control" id="pwd" placeholder="Password"
                             value="<?php echo set_value('password'); ?>">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        </div>
+                        <i class="fa fa-eye-slash pull-right" align="right"></i><br>
                     </div>
 
                     <!-- /.col -->
@@ -75,7 +76,6 @@
                     <!-- /.col -->
                     <!-- </div> -->
                 </form>
-            </div>
             <!-- <div class="col-md-12">      
         <?php
         if(!empty($pesan)) {
@@ -94,9 +94,9 @@
                 </b>
             </div>
         </div>
-    </div>
+            </div>
     <!-- /.login-box -->
-
+</body>
     <!-- jQuery -->
     <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
@@ -146,6 +146,21 @@
             })
 
         e.preventDefault();
+    });
+
+    $(document).ready(function() {
+        $(".fa").bind("click", function() {
+
+            if ($('#pwd').attr('type') == 'password') {
+                $('#pwd').attr('type', 'text');
+                $('.fa').removeClass('fa-eye-slash');
+                $('.fa').addClass('fa-eye');
+            } else if ($('#pwd').attr('type') == 'text') {
+                $('#pwd').attr('type', 'password');
+                $('.fa').removeClass('fa-eye');
+                $('.fa').addClass('fa-eye-slash');
+            }
+        })
     });
     </script>
 </body>

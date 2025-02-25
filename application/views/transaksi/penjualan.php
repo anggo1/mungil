@@ -15,9 +15,8 @@
 
                                         <form id="form1" name="form1" method="POST">
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">ID Penjualan</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" name="next_proses" id="next_proses"
+                                                    <input type="hidden" name="next_proses" id="next_proses"
                                                         class="form-control datakode" readonly>
                                                     <input type="hidden" name="pembuat"
                                                         value="<?php echo $this->session->userdata['full_name']; ?>"
@@ -32,6 +31,7 @@
                                                     <div class="input-group date" id="reservationdate"
                                                         data-target-input="nearest">
                                                         <input type="text" name="nama" id="nama" class="form-control"
+                                                            value="<?php echo "CS"; ?>"
                                                             onkeypress="return handleEnter(this, event)"
                                                             onkeyup="f(this)">
                                                     </div>
@@ -154,7 +154,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Total</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-3">
 
                                                 <input type="hidden" name="kode_t" id="kode_t"
                                                     class="form-control datakode" required readonly>
@@ -165,18 +165,15 @@
                                                     onkeypress="return handleEnter(this, event)" onkeydown="f(this)"
                                                     readonly class="form-control" align="right">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Total Diskon</label>
-                                            <div class="col-sm-3">
+                                            <label class="col-sm-2 col-form-label">Total Diskon</label>
+                                            <div class="col-sm-4">
                                                 <input type="text" name="total_potongan" id="total_potongan"
                                                     onfocus="startCalculate()" onblur="stopCalc()"
                                                     onkeypress="return handleEnter(this, event)" onkeydown="f(this)"
-                                                    class="form-control">
+                                                    class="form-control" readonly>
                                             </div>
-                                            <label class="col-sm-2 col-form-label">Total Item</label>
                                             <div class="col-sm-4">
-                                                <input type="text" name="total_jumlah" id="total_jumlah"
+                                                <input type="hidden" name="total_jumlah" id="total_jumlah"
                                                     onfocus="startCalculate()" onblur="stopCalc()"
                                                     onkeypress="return handleEnter(this, event)" onkeydown="f(this)"
                                                     class="form-control" readonly>
@@ -184,26 +181,28 @@
 
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Nominal Bayar</label>
+                                            <label class="col-sm-3 col-form-label">Kembalian</label>
                                             <div class="col-sm-3">
+                                                <input type="text" name="kembalian" id="kembalian"
+                                                    onchange="formatNumber(this)" onblur="formatNumber(this)"
+                                                    class="form-control">
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Nominal Bayar</label>
+                                            <div class="col-sm-4">
                                                 <input type="text" name="jumlah_bayar" id="jumlah_bayar"
                                                     onfocus="startCalculate()" onClick="isi_total()"
                                                     onKeyPress="isi_total()" onblur="stopCalc()"
                                                     onkeyup="formatNumber(this)" onchange="formatNumber(this)"
                                                     onkeydown="f(this)" class="form-control" required>
                                             </div>
-                                            <label class="col-sm-2 col-form-label">Kembalian</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" name="kembalian" id="kembalian"
-                                                    onchange="formatNumber(this)" onblur="formatNumber(this)"
-                                                    class="form-control">
-                                            </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12">
+                                                <a href="" id="linknya">
                                                 <button class="btn bg-gradient-success col-sm-12 cetak-ttb" id="cetak"
                                                     data-id="" hidden=""> <i class="fa fa-print"></i>
-                                                    Cetak</button>
+                                                    Cetak</button></a>
+
                                             </div>
                                         </div>
                                     </form>
@@ -215,7 +214,7 @@
                 </section>
                 <div class="col-md-12">
                     <div class="card card-default">
-                                    <div id="data-penjualan"></div>
+                        <div id="data-penjualan"></div>
                     </div>
 
                 </div>
@@ -244,7 +243,12 @@
                 document.getElementById('kode_t').value = datakode;
                 var d = document.getElementById("cetak");
                 d.setAttribute('data-id', datakode, );
-                document.getElementById("tab-proses-tab").hidden = false;
+                //document.getElementById("tab-proses-tab").hidden = false;
+
+
+                var a = document.getElementById('linknya'); //or grab it by tagname etc
+                a.href = '<?php echo base_url('Penjualan/cetakprint')?>?id=' + datakode + '=cetak';
+
             }
 
             function tampilDetailkirim2(datakode) {
@@ -309,13 +313,13 @@
                         document.getElementById('kode_t').value = out.datakode;
                         tampilDetailkirim(out.datakode);
                         isi_total()
+                        next(out.datakode);
                         if (out.status == 'form') {
                             //toastr.error(out.msg);
                             $('.msg').html(out.msg);
-                            next(out.datakode);
                             toastr.error(out.msg);
                         } else {
-                            document.getElementById("form1"); //reset()
+                            document.getElementById("form"); //reset()
                             $('#kode_barang').val('');
                             $('#nama_barang').val('');
                             $('#harga').val('');
@@ -324,9 +328,9 @@
                             $('#potongan').val('');
                             $('#total_harga').val('');
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
-                                title: 'Sukses',
+                                title: out.msg,
                                 showConfirmButton: false,
                                 timer: 1000
                             })
@@ -394,6 +398,7 @@
             function cetakTtb(datakode) {}
             $(document).on('submit', '#form2', function(e) {
                 var data = $(this).serialize();
+                var a = document.getElementById('linknya'); //or grab it by tagname etc
                 $.ajax({
                         method: 'POST',
                         url: '<?php echo base_url('Penjualan/cetak'); ?>',
@@ -402,6 +407,7 @@
                     .done(function(data) {
                         $('#modal-ttb').html(data);
                         $('#cetak-ttb').modal('show');
+                a.href = '<?php echo base_url('Penjualan/cetakprint')?>?id=' + datakode + '=cetak';
 
                     })
             })
@@ -586,7 +592,7 @@
                     return negativeSign +
                         (j ? i.substr(0, j) + thousands : '') +
                         i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands);
-                        //(decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+                    //(decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
                 } catch (e) {
                     console.log(e)
                 }
@@ -595,7 +601,7 @@
             function Calculate() {
                 var total = document.form2.jumlah_bayar.value;
                 total = total.replace(/\,/g, '');
-                
+
                 var t_bayar = document.form2.total_bayar.value;
                 t_bayar = t_bayar.replace(/\,/g, '');
 
