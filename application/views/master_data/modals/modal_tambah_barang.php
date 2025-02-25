@@ -1,4 +1,18 @@
-<?php if(!empty($dataBarang)){foreach ($dataBarang as $dataBarang){}} ?>
+<?php 
+$date= date("Ymd");
+$ci = get_instance();
+$query = "SELECT max(kode_barang) as maxKode FROM tbl_barang WHERE kode_barang LIKE '%$date%'";
+$data = $ci->db->query($query)->row_array();
+$noOrder = $data['maxKode'];
+$noUrut = (int) substr($noOrder, 10, 3);
+$noUrut++;
+$char = "BM";
+$tahun=substr($date, 0, 4);
+$bulan=substr($date, 4, 2);
+$tgl=substr($date, 6, 2);
+$kodeBaru  = $char .$tahun .$bulan .$tgl . sprintf("%03s", $noUrut);
+
+if(!empty($dataBarang)){foreach ($dataBarang as $dataBarang){}} ?>
 			    <div class="modal-content">
 			    <div class="modal-header">
                      <h4 style="display:block; text-align:center;"><?php if (!empty($dataBarang->kode_barang)) {
@@ -18,7 +32,7 @@
                         ?> value="<?php
                                             if (!empty($dataBarang->kode_barang)) {
                                                 echo $dataBarang->kode_barang;
-                                            }
+                                            } else echo "$kodeBaru";
                                             ?>"  required>
                     </div>
 					<label class="col-sm-2 col-form-label">Nama Barang</label>

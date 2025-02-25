@@ -18,6 +18,8 @@ if(isset($_GET['id_penjualan'])){
 	b.jumlah_diskon,
 	b.diskon,
 	b.pembayaran,
+	b.kembalian,
+	b.jumlah_bayar,
 	sum(total_harga)as total_harganya,sum(jumlah) as total_jumlah 
 	FROM tbl_detail_penjualan AS a
 	INNER JOIN tbl_penjualan AS b USING (id_penjualan)
@@ -37,7 +39,9 @@ if(isset($_GET['id_penjualan'])){
 												   'diskon'		=>$query['diskon'],
 												   'pembayaran'		=>$query['pembayaran'],
 												   'total_harganya'		=>$query['total_harganya'],
-												   'total_jumlah'	=>$query['total_jumlah']
+												   'total_jumlah'	=>$query['total_jumlah'],
+												   'kembalian'	=>$query['kembalian'],
+												   'jumlah_bayar'	=>$query['jumlah_bayar'],
 												  );
 		endforeach;
 	
