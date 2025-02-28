@@ -88,7 +88,7 @@ public function cari_harga() {
 			
 			$data2 = array(
 				'id_penjualan'  =>$kodeBaru,
-				'tgl_buat'  =>$ttmp2,
+				'tgl_buat'  =>$tgl_buat,
 				'jam_transaksi'  =>$jam,
 				'nama_konsumen'      =>$data['nama'],
 				'pembuat'     =>$data['pembuat'],
